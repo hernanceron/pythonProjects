@@ -1,0 +1,3 @@
+https://apisdevbcp.com:9443/channel/scrm/customer-financial-account-overview/v1/financial-accounts?personId=180869471&type=products
+
+curl 'https://apisdevbcp.com:9443/channel/scrm/customer-financial-account-overview/v1/financial-accounts?personId=180869471&type=products' -d '{"someRequest": {"name": "lol"}}' -v --cert apisdevbcpcom.pem --key desarrollo_r2gob_v3.key --cacert desarrollo_r2gob_v3.pem
