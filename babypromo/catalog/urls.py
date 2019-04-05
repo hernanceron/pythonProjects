@@ -17,5 +17,10 @@ urlpatterns = [
         "products/",
         views.ProductListView.as_view(),
         name="products",
+    ),
+    path(
+        "load-products/",
+        views.upload,
+        name="upload"
     )
 ]

@@ -1,0 +1,14 @@
+Django==2.1.7
+django-excel==0.0.10
+et-xmlfile==1.0.1
+jdcal==1.4
+lml==0.0.9
+mysqlclient==1.4.2.post1
+openpyxl==2.5.14
+pkg-resources==0.0.0
+pyexcel==0.5.13
+pyexcel-io==0.5.17
+pyexcel-webio==0.1.4
+pyexcel-xlsx==0.5.7
+pytz==2018.9
+texttable==1.6.1
