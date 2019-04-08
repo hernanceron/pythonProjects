@@ -17,7 +17,7 @@ class Store(models.Model):
 
 class ProductManager(models.Manager):
     def active(self):
-        return self.filter(store__status='activo')
+        return self.filter(store__status='activo').order_by("name")
 
 class Product(models.Model):
     published_date = models.DateField()

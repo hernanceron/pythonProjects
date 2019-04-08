@@ -9,7 +9,7 @@ class ProductListView(ListView):
     template_name="catalog/product_list.html"
     queryset = models.Product.objects.active()
     context_object_name="products"
-    paginate_by=10
+    paginate_by=4
 
 class LoaderForm(forms.Form):
     file = forms.FileField()
@@ -25,10 +25,10 @@ def upload(request):
             return row
 
         if form.is_valid():            
-            request.FILES['file'].save_book_to_database(
-                models=[
-                    (models.Product, ['published_date', 'name', 'code', 'brandName', 'image_url', 'price', 'discount_price', 'store', 'principalCode'], store_func, 0)
-                 ]
+            request.FILES['file'].save_to_database(
+                model = models.Product,
+                initializer = store_func,
+                mapdict = ['published_date', 'name', 'code', 'brandName', 'image_url', 'price', 'discount_price', 'store', 'principalCode']
                 )
             return HttpResponse("OK", status=200)
         else:
