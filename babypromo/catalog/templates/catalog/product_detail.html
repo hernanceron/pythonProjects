@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+    <h3>Detalle de Producto</h3>
+    <img src="{{ producto.image_url }}" alt="{{ producto.name }}" class="image-detail">
+    <div class="image-info">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th class="col">Tienda</th>
+                    <th class="col">Precio Normal</th>
+                    <th class="col">Precio Oferta</th>
+                </tr>                
+            </thead>
+            <tbody>
+                {% for prod in lista %}
+                    <th scope="row">{{ prod.code }}</th>
+                    <td>{{ prod.store }}</td>
+                    <td>{{ prod.price }}</td>
+                    <td>{{ prod.discount_price }}</td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}
