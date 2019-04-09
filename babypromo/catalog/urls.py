@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.views.generic import TemplateView
 from catalog import views
 
@@ -23,8 +23,8 @@ urlpatterns = [
         views.upload,
         name="upload"
     ),
-    path(
-        "<pk>",
+    re_path(
+        r'^products/(?P<pk>\w+)/$',       
         views.ProductDetailView.as_view(),
         name="productsDetails"
     )

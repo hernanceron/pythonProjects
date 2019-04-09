@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.views.generic import DetailView
+from django.views.generic import View
 from django.shortcuts import get_object_or_404
 from catalog import models
 from django import forms
@@ -15,17 +15,12 @@ class ProductListView(ListView):
 class LoaderForm(forms.Form):
     file = forms.FileField()
 
-class ProductDetailView(DetailView):
-    model = models.Product
-    context_object_name = "producto"
-    template_name ="catalog/product_detail.html"
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        product = get_object_or_404(models.Product, code=kwargs['pk'])        
-        context['lista']= models.Product.object.anotherStores(product.principalCode)
-        return context
+class ProductDetailView(View):
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(models.Product, code=kwargs['pk'])  
+        lista = models.Product.objects.anotherStores(product.principalCode)
+        context = {'producto' : product, 'lista': lista}
+        return render(request, 'catalog/product_detail.html', context)
 
 def upload(request):
     if request.method == 'POST':
