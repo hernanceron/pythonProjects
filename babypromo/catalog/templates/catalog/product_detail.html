@@ -2,25 +2,52 @@
 {% block content %}
     <h3>Detalle de Producto</h3>
     <div class="row">
-        <div class="col-md-6">
-            <img src="{{ producto.image_url }}" alt="{{ producto.name }}" class="img-thumbnail image-detail">
+        <div class="col-sm-6">
+            <div class="col-md-10 px-0">
+                <img src="{{ producto.image_url }}" alt="{{ producto.name }}" class="img-fluid">
+            </div>            
+            <h6>{{ producto.name }}</h6>
         </div>
-        <div class="col-md-6">
-            <div class="image-info">                    
-                <table class="table">
+        <div class="col-sm-6">
+            <div class="image-info">    
+                {% if lista %}                
+                <table class="table table-sm">
+                    <caption>Lista de precios</caption>
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th class="col">Tienda</th>
-                            <th class="col">Precio Normal</th>
-                            <th class="col">Precio Oferta</th>
+                            <th>#</th>
+                            <th>Tienda</th>
+                            <th>Precio Normal</th>
+                            <th>Precio Oferta</th>
                         </tr>                
                     </thead>
                     <tbody>
                         {% for prod in lista %}
                         <tr>
-                            <th scope="row">{{ prod.code }}</th>
+                            <td>{{ forloop.counter }}</th>
                             <td>{{ prod.store }}</td>
+                            <td>{{ prod.price }}</td>
+                            <td>{{ prod.discount_price }}</td>
+                        </tr>                    
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+                <table class="table table-sm">
+                    <caption>Historia de precios - {{ producto.store }}</caption>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Fecha</th>
+                            <th>Precio Normal</th>
+                            <th>Precio Oferta</th>
+                        </tr>                
+                    </thead>
+                    <tbody>
+                        {% for prod in historico %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ prod.published_date }}</td>
                             <td>{{ prod.price }}</td>
                             <td>{{ prod.discount_price }}</td>
                         </tr>                    

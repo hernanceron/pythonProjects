@@ -19,7 +19,8 @@ class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(models.Product, code=kwargs['pk'])  
         lista = models.Product.objects.anotherStores(product.principalCode)
-        context = {'producto' : product, 'lista': lista}
+        historico = models.Product.objects.historical(product.principalCode, product.store)
+        context = {'producto' : product, 'lista': lista, 'historico': historico}
         return render(request, 'catalog/product_detail.html', context)
 
 def upload(request):

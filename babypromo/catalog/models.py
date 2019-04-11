@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import date
 
 # Create your models here.
 class Store(models.Model):
@@ -20,7 +20,11 @@ class ProductManager(models.Manager):
         return self.filter(store__status='activo').order_by("name")
     
     def anotherStores(self,principalCode):
-        return self.filter(principalCode = principalCode).order_by("name")
+        q1 = self.filter(principalCode = principalCode).order_by("name")
+        return q1.filter(published_date = date.today())
+    
+    def historical(self, principalCode, store):
+        return self.filter(principalCode = principalCode, store__name = store)
 
 class Product(models.Model):
     published_date = models.DateField()
