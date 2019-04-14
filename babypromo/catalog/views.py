@@ -8,7 +8,7 @@ from django import forms
 # Create your views here.
 class ProductListView(ListView):
     template_name="catalog/product_list.html"
-    queryset = models.Product.objects.active()
+    queryset = models.Product.objects.all()
     context_object_name="products"
     paginate_by=3
 
@@ -17,10 +17,9 @@ class LoaderForm(forms.Form):
 
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
-        product = get_object_or_404(models.Product, code=kwargs['pk'])  
-        lista = models.Product.objects.anotherStores(product.principalCode)
-        historico = models.Product.objects.historical(product.principalCode, product.store)
-        context = {'producto' : product, 'lista': lista, 'historico': historico}
+        product = get_object_or_404(models.Product, principalCode=kwargs['pk'])  
+        lista = models.Price.active_prices.all().filter(product__principalCode = product.principalCode)        
+        context = {'producto' : product, 'lista': lista}
         return render(request, 'catalog/product_detail.html', context)
 
 def upload(request):
