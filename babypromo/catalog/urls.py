@@ -2,6 +2,8 @@ from django.urls import path, re_path
 from django.views.generic import TemplateView
 from catalog import views
 
+app_name = "catalog"
+
 urlpatterns = [
     path(
         "about-us/",
@@ -27,5 +29,6 @@ urlpatterns = [
         r'^products/(?P<pk>\w+)/$',       
         views.ProductDetailView.as_view(),
         name="productsDetails"
-    )
+    ),
+  
 ]

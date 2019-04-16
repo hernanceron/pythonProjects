@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
 from enum import Enum
+from django.urls import reverse
 
 # Create your models here.
 class Brand(models.Model):
@@ -38,7 +39,12 @@ class Store(models.Model):
                               choices = STATUS,
                               default = ACTIVO,)
     product = models.ManyToManyField(Product, through = 'Price')
-    
+    objects = models.Manager()
+
+    def get_absolute_url(self):
+        return reverse('catalog:product_list_by_store',
+                        args=[self.id])
+
     def __str__(self):
         return '%s' % (self.name)
 

@@ -22,6 +22,13 @@ class ProductDetailView(View):
         context = {'producto' : product, 'lista': lista}
         return render(request, 'catalog/product_detail.html', context)
 
+def product_list_by_store(request, storeid):
+    store = get_object_or_404(models.Store, id = storeid)  
+    products = store.product()
+    return render(request,
+                  "catalog/product_list.html",
+                  {'products' : products}  )
+
 def upload(request):
     if request.method == 'POST':
         form = LoaderForm(request.POST, request.FILES)
