@@ -20,10 +20,16 @@ class Brand(models.Model):
 
 
 class Product(models.Model):
-    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, null = True)
-    name = models.CharField(max_length = 256, default = None)
-    image_url = models.CharField(max_length = 256)
-    principalCode = models.CharField(max_length = 10)
+    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, null = True)   #marca
+    name = models.CharField(max_length = 256, default = None)   #nombreProducto
+    image_url = models.CharField(max_length = 256, default = None)     #
+    principalCode = models.CharField(max_length = 10, default = None)  #CodBaby
+    typeProduct = models.CharField(max_length = 5, default = None)  #Tipo
+    model = models.CharField(max_length = 10, default = None) #Modelo
+    size = models.CharField(max_length = 5, default = None) #size
+    quantity = models.IntegerField(default = 0) #quantity
+    presentation = models.CharField(max_length = 5, default = None) #presentation
+
     def __str__(self):
         return '%s %s' % (self.name, self.brand)
 

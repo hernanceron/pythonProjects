@@ -6,11 +6,6 @@ from catalog import models
 from django import forms
 
 # Create your views here.
-class ProductListView(ListView):
-    template_name="catalog/product_list.html"
-    queryset = models.Product.objects.all()
-    context_object_name="products"
-    paginate_by=3
 
 class LoaderForm(forms.Form):
     file = forms.FileField()
@@ -22,9 +17,13 @@ class ProductDetailView(View):
         context = {'producto' : product, 'lista': lista}
         return render(request, 'catalog/product_detail.html', context)
 
-def product_list_by_store(request, storeid):
-    store = get_object_or_404(models.Store, id = storeid)  
-    products = store.product()
+def product_list_by_store(request):
+    storeid = request.GET.get('storeId')
+    if storeid != None:
+        products = models.Product.objects.filter( store__id = storeid )    
+    else:
+        products = models.Product.objects.all()
+      
     return render(request,
                   "catalog/product_list.html",
                   {'products' : products}  )

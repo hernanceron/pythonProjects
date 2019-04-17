@@ -2,7 +2,6 @@ from django.urls import path, re_path
 from django.views.generic import TemplateView
 from catalog import views
 
-app_name = "catalog"
 
 urlpatterns = [
     path(
@@ -15,11 +14,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="home.html"),
         name="home",
     ),
-    path(
-        "products/",
-        views.ProductListView.as_view(),
-        name="products",
-    ),
+    re_path(r'^products$',
+        views.product_list_by_store,
+        name = "productsStore"),
     path(
         "load-products/",
         views.upload,
