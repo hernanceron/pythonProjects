@@ -4,6 +4,7 @@ from django.views.generic import View
 from django.shortcuts import get_object_or_404
 from catalog import models
 from django import forms
+import datetime
 
 # Create your views here.
 
@@ -32,17 +33,43 @@ def upload(request):
     if request.method == 'POST':
         form = LoaderForm(request.POST, request.FILES)
 
-        def store_func(row):
+        def product_func(row):
+            print(row[2])
+            nameBrand = row[2]
+            brand = models.Brand.objects.get( name= nameBrand.upper() )
+            if brand == None:
+                brand = models.Brand.create( nameBrand.upper(), 'ACT')
+            row[2] = brand
+            return row
+
+        def price_func(row):
+            print(row[0])
+            cadena = row[0]
+            longitud = len(cadena)
+            if longitud == 6:
+                year = cadena[ 0:4 ]
+                month = cadena[ 4:5 ]
+                day = cadena[ 5:6 ]
+            elif longitud == 7:
+                year = cadena[ 0:4 ]
+                month = cadena[ 4:5 ]
+                day = cadena[ 5:7 ]
+            
+            fecha = datetime.datetime(int(year), int(month), int(day))
+            row[0] = fecha
+
             print(row[7])
-            s = models.Store.objects.filter(name=row[7])[0]
-            row[7] = s
+            codBabyPromo = row[7]
+            producto = models.Product.objects.filter( principalCode = codBabyPromo )[0]
+            row[7] = producto
+
             return row
 
         if form.is_valid():            
             request.FILES['file'].save_to_database(
                 model = models.Product,
-                initializer = store_func,
-                mapdict = ['published_date', 'name', 'code', 'brandName', 'image_url', 'price', 'discount_price', 'store', 'principalCode']
+                initializer = product_func,
+                mapdict = ['name', 'internalCode' , 'brand', 'typeProduct', 'model', 'size', 'quantity', 'presentation', 'principalCode', 'image_url']
                 )
             return HttpResponse("OK", status=200)
         else:

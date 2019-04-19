@@ -4,6 +4,7 @@ from . import models
 # Register your models here.
 
 class ProductAdmin(admin.ModelAdmin):
+   list_display = [ 'name' , 'principalCode']
    list_filter = ('store__name',)
 
 admin.site.register(models.Store)
