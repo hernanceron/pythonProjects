@@ -19,8 +19,13 @@ urlpatterns = [
         name = "productsStore"),
     path(
         "load-products/",
-        views.upload,
-        name="upload"
+        views.upload_products,
+        name="upload_products"
+    ),
+    path(
+        "load-prices/",
+        views.upload_prices,
+        name="upload_prices"
     ),
     re_path(
         r'^products/(?P<pk>\w+)/$',       

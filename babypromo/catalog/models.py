@@ -61,10 +61,10 @@ class PriceManager(models.Manager):
         return q1
 
 class Price(models.Model):
-    published_date = models.DateField()
-    price = models.CharField(max_length = 10)
-    discount_price = models.CharField(max_length = 10)
-    store = models.ForeignKey(Store, on_delete = models.CASCADE)
-    product = models.ForeignKey(Product, on_delete = models.CASCADE)
+    published_date = models.DateField()  #fecha
+    price = models.CharField(max_length = 10)  #precio
+    discount_price = models.CharField(max_length = 10)   #precioOferta
+    store = models.ForeignKey(Store, on_delete = models.CASCADE)   #Web
+    product = models.ForeignKey(Product, on_delete = models.CASCADE)  #CodBabypromo
     objects = models.Manager()
     active_prices = PriceManager()

@@ -21,26 +21,17 @@ class ProductDetailView(View):
 def product_list_by_store(request):
     storeid = request.GET.get('storeId')
     if storeid != None:
-        products = models.Product.objects.filter( store__id = storeid )    
+        products = models.Product.objects.filter( store__id = storeid ).order_by('name')    
     else:
-        products = models.Product.objects.all()
+        products = models.Product.objects.all().order_by('name')
       
     return render(request,
                   "catalog/product_list.html",
                   {'products' : products}  )
 
-def upload(request):
+def upload_prices(request):
     if request.method == 'POST':
         form = LoaderForm(request.POST, request.FILES)
-
-        def product_func(row):
-            print(row[2])
-            nameBrand = row[2]
-            brand = models.Brand.objects.get( name= nameBrand.upper() )
-            if brand == None:
-                brand = models.Brand.create( nameBrand.upper(), 'ACT')
-            row[2] = brand
-            return row
 
         def price_func(row):
             print(row[0])
@@ -58,11 +49,45 @@ def upload(request):
             fecha = datetime.datetime(int(year), int(month), int(day))
             row[0] = fecha
 
-            print(row[7])
-            codBabyPromo = row[7]
-            producto = models.Product.objects.filter( principalCode = codBabyPromo )[0]
-            row[7] = producto
+            print(row[4])
+            codBabyPromo = row[4]
+            producto = models.Product.objects.get( principalCode = codBabyPromo )
+            row[4] = producto
 
+            return row
+        
+        if form.is_valid():
+            request.FILES['file'].save_to_database(
+                model = models.Price,
+                initializer = price_func,
+                mapdict = ['published_date', 'price', 'discount_price', 'store', 'product']
+                )
+            return HttpResponse("OK", status=200)
+        else:
+            return HttpResponseBadRequest()
+    else:
+        form = LoaderForm()
+    return render(
+        request,
+        'catalog/load.html',
+        {
+            'form': form,
+            'title': 'Excel file upload and download example',
+            'header': ('Please choose any excel file ' +
+                    'from your cloned repository:')
+        })
+
+def upload_products(request):
+    if request.method == 'POST':
+        form = LoaderForm(request.POST, request.FILES)
+
+        def product_func(row):
+            print(row[2])
+            nameBrand = row[2]
+            brand = models.Brand.objects.get( name= nameBrand.upper() )
+            if brand == None:
+                brand = models.Brand.create( nameBrand.upper(), 'ACT')
+            row[2] = brand
             return row
 
         if form.is_valid():            
