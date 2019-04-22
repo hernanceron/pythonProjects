@@ -60,6 +60,11 @@ class PriceManager(models.Manager):
         q1 = super().get_queryset().filter(published_date = date.today())
         return q1
 
+class HistoryManager(models.Manager):
+    def get_queryset(self):
+        #listar todos los precios de un producto
+       pass
+
 class Price(models.Model):
     published_date = models.DateField()  #fecha
     price = models.CharField(max_length = 10)  #precio

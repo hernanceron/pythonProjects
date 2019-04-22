@@ -1,12 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Cargar productos</h1>
-    {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-    {% endif %}
+    <h1>Cargar productos</h1>   
     <form action="" enctype="multipart/form-data"  method="post">
         <table>
             {{ form.as_table }}

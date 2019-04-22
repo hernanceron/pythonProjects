@@ -14,7 +14,7 @@ class LoaderForm(forms.Form):
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(models.Product, principalCode=kwargs['pk'])  
-        lista = models.Price.active_prices.all().filter(product__principalCode = product.principalCode)        
+        lista = models.Price.objects.filter(product__principalCode = product.principalCode).order_by('-published_date')
         context = {'producto' : product, 'lista': lista}
         return render(request, 'catalog/product_detail.html', context)
 
@@ -35,7 +35,8 @@ def upload_prices(request):
 
         def price_func(row):
             print(row[0])
-            cadena = row[0]
+            cadenaInt = row[0]
+            cadena = str(cadenaInt)
             longitud = len(cadena)
             if longitud == 6:
                 year = cadena[ 0:4 ]
@@ -48,6 +49,10 @@ def upload_prices(request):
             
             fecha = datetime.datetime(int(year), int(month), int(day))
             row[0] = fecha
+
+            nombreStore = row[3]
+            store = models.Store.objects.get( name = nombreStore.upper() )
+            row[3] = store
 
             print(row[4])
             codBabyPromo = row[4]

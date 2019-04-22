@@ -12,10 +12,11 @@
             <div class="image-info">    
                 {% if lista %}                
                 <table class="table table-sm">
-                    <caption>Lista de precios</caption>
+                    <caption>Historico de precios</caption>
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Fecha</th>
                             <th>Tienda</th>
                             <th>Precio Normal</th>
                             <th>Precio Oferta</th>
@@ -25,6 +26,7 @@
                         {% for price in lista %}
                         <tr>
                             <td>{{ forloop.counter }}</th>
+                            <td>{{ price.published_date }}</td>
                             <td>{{ price.store }}</td>
                             <td>{{ price.price }}</td>
                             <td>{{ price.discount_price }}</td>
