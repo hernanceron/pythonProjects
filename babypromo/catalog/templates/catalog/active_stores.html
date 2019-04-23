@@ -1,10 +1,10 @@
 <div class="sidebar-header">
     <h3>BabyPromo</h3>
 </div>
-<ul class="list-unstyled components">
+<ul class="list components">
     {% for store in active_stores %}
     <li>
-        <a href="products?storeId={{ store.id }}">{{ store.name }}</a>
+        <a href="{{ store.get_absolute_url }}">{{ store.name }}</a>
     </li>
     {% endfor %}
 </ul>

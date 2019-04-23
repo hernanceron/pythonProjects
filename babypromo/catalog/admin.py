@@ -7,8 +7,11 @@ class ProductAdmin(admin.ModelAdmin):
    list_display = [ 'name' , 'principalCode']
    list_filter = ('store__name',)
 
+class PriceAdmin(admin.ModelAdmin):
+   list_display = [ 'product', 'store' ]
+
 admin.site.register(models.Store)
 admin.site.register(models.Brand)
-admin.site.register(models.Price)
+admin.site.register(models.Price, PriceAdmin)
 admin.site.register(models.Product, ProductAdmin)
 

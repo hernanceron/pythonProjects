@@ -32,7 +32,7 @@ class Product(models.Model):
     image_url = models.CharField(max_length = 256, default = None)     #web   
 
     def __str__(self):
-        return '%s %s' % (self.name, self.brand)
+        return '%s %s' % (self.principalCode, self.name)
 
 class Store(models.Model):   
     INACTIVO = 'INA'
@@ -49,7 +49,7 @@ class Store(models.Model):
     objects = models.Manager()
 
     def get_absolute_url(self):
-        return reverse('catalog:product_list_by_store',
+        return reverse('storeDetails',
                         args=[self.id])
 
     def __str__(self):
@@ -59,11 +59,6 @@ class PriceManager(models.Manager):
     def get_queryset(self):
         q1 = super().get_queryset().filter(published_date = date.today())
         return q1
-
-class HistoryManager(models.Manager):
-    def get_queryset(self):
-        #listar todos los precios de un producto
-       pass
 
 class Price(models.Model):
     published_date = models.DateField()  #fecha

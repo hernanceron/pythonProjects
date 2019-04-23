@@ -12,11 +12,10 @@
             <div class="image-info">    
                 {% if lista %}                
                 <table class="table table-sm">
-                    <caption>Historico de precios</caption>
+                    <caption>Precios Actuales</caption>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Fecha</th>
+                            <th>#</th>                           
                             <th>Tienda</th>
                             <th>Precio Normal</th>
                             <th>Precio Oferta</th>
@@ -25,8 +24,7 @@
                     <tbody>
                         {% for price in lista %}
                         <tr>
-                            <td>{{ forloop.counter }}</th>
-                            <td>{{ price.published_date }}</td>
+                            <td>{{ forloop.counter }}</th>                            
                             <td>{{ price.store }}</td>
                             <td>{{ price.price }}</td>
                             <td>{{ price.discount_price }}</td>
@@ -35,27 +33,29 @@
                     </tbody>
                 </table>
                 {% endif %}
-               <!-- <table class="table table-sm">
-                    <caption>Historia de precios - {{ producto.store }}</caption>
+               <table class="table table-sm">
+                    <caption>Historia de precios</caption>
                     <thead>
-                        <tr>
+                       <tr>
                             <th>#</th>
                             <th>Fecha</th>
+                            <th>Tienda</th>
                             <th>Precio Normal</th>
                             <th>Precio Oferta</th>
-                        </tr>                
+                        </tr>                 
                     </thead>
                     <tbody>
-                        {% for prod in historico %}
+                        {% for price in listaHistorico %}
                         <tr>
-                            <th>{{ forloop.counter }}</th>
-                            <td>{{ prod.published_date }}</td>
-                            <td>{{ prod.price }}</td>
-                            <td>{{ prod.discount_price }}</td>
-                        </tr>                    
+                            <td>{{ forloop.counter }}</th>
+                            <td>{{ price.published_date }}</td>
+                            <td>{{ price.store }}</td>
+                            <td>{{ price.price }}</td>
+                            <td>{{ price.discount_price }}</td>
+                        </tr>                              
                         {% endfor %}
                     </tbody>
-                </table>-->
+                </table>
             </div>
         </div>
     </div>  

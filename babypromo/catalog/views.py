@@ -13,15 +13,18 @@ class LoaderForm(forms.Form):
 
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
-        product = get_object_or_404(models.Product, principalCode=kwargs['pk'])  
-        lista = models.Price.objects.filter(product__principalCode = product.principalCode).order_by('-published_date')
-        context = {'producto' : product, 'lista': lista}
+        product = get_object_or_404(models.Product, principalCode=kwargs['pk'])        
+        listaHistorico = models.Price.objects.filter(product__principalCode = product.principalCode).order_by('-published_date')
+
+        listaActual = models.Price.active_prices.filter(product__principalCode = product.principalCode)
+
+        context = {'producto' : product, 'lista': listaActual, 'listaHistorico': listaHistorico}
         return render(request, 'catalog/product_detail.html', context)
 
-def product_list_by_store(request):
-    storeid = request.GET.get('storeId')
-    if storeid != None:
-        products = models.Product.objects.filter( store__id = storeid ).order_by('name')    
+def product_list_by_store(request, storeId = None):
+    
+    if storeId != None:
+        products = models.Product.objects.filter( store__id = storeId ).order_by('name')    
     else:
         products = models.Product.objects.all().order_by('name')
       

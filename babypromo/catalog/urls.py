@@ -1,4 +1,5 @@
 from django.urls import path, re_path
+from django.conf.urls import include, url
 from django.views.generic import TemplateView
 from catalog import views
 
@@ -32,5 +33,8 @@ urlpatterns = [
         views.ProductDetailView.as_view(),
         name="productsDetails"
     ),
+    re_path(r'^stores/(?P<storeId>\d+)/$',
+        views.product_list_by_store,
+        name = "storeDetails"),
   
 ]
