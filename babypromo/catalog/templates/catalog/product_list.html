@@ -1,20 +1,20 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
     <h1>Lista de productos</h1>
-    <ul class="list-group list-group-horizontal">
-        {% for p in products %}
-            <li class="list-group-item">
+    <div class="container-fluid">
+        <div class="card-columns">
+            {% for p in products %}
                 <div class="card" style="width:18rem;">
-                    <img src="{{ p.image_url }}" class="card-img-top" alt="{{ p.name }}">
+                    <img src="{% static 'images/' %}{{p.principalCode}}.jpg" class="card-img-top" alt="{{ p.name }}">
                     <div class="card-body">
                         <h6 class="card-title">{{ p.name }}</h6>
                         <a href="products/{{ p.principalCode }}" class="page-link">Detalle</a>
                     </div>
                 </div>
-            </li>
-        {% endfor %}
-    </ul>   
+            {% endfor %}
+        </div>        
+    </div>
     <nav>
         <ul class="pagination">
             {% if page_obj.has_previous %}
