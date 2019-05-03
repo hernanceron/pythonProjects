@@ -14,7 +14,7 @@ class LoaderForm(forms.Form):
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(models.Product, principalCode=kwargs['pk'])        
-        listaHistorico = models.Price.objects.filter(product__principalCode = product.principalCode).order_by('-published_date')
+        listaHistorico = models.Price.objects.filter(product__principalCode = product.principalCode).order_by('-published_date')[:7]
 
         listaActual = models.Price.active_prices.filter(product__principalCode = product.principalCode)
 
