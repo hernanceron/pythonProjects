@@ -1,16 +1,18 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
+from django.views import generic
 from django.views.generic import View
 from django.shortcuts import get_object_or_404
 from catalog import models
 from django import forms
+from catalog.models import Product,Brand,Type, Modelo
 import datetime
 
 # Create your views here.
 
 class LoaderForm(forms.Form):
     file = forms.FileField()
-
+    
+#muestra el detalle del producto elegido
 class ProductDetailView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(models.Product, principalCode=kwargs['pk'])        
@@ -21,16 +23,32 @@ class ProductDetailView(View):
         context = {'producto' : product, 'lista': listaActual, 'listaHistorico': listaHistorico}
         return render(request, 'catalog/product_detail.html', context)
 
-def product_list_by_store(request, storeId = None):
-    
-    if storeId != None:
-        products = models.Product.objects.filter( store__id = storeId ).order_by('name')    
-    else:
-        products = models.Product.objects.all().order_by('name')
+#lista todos los productos
+class ProductListView(generic.ListView):
+    queryset = Product.objects.order_by('name')
+    context_object_name = 'products'
+    paginate_by = 10
+    template_name = "catalog/product_list.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['brand_list'] = Brand.active_brands.all()
+        context['type_list'] = Type.active_types.all()
+        context['models_list'] = Modelo.modelos_activos.all()
+
+        return context
+
+
+class ProductSearchListView(generic.ListView):
+    model = Product
+    paginate_by = 10
+    template_name = "catalog/product_list.html"
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        keyword = self.request.GET.get('productName')
       
-    return render(request,
-                  "catalog/product_list.html",
-                  {'products' : products}  )
+        if keyword:
+            return  Product.objects.filter(name__icontains = keyword)
+        return queryset
 
 def upload_prices(request):
     if request.method == 'POST':

@@ -81,10 +81,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbbabypromo',
-        'USER': 'hernan',
-        'PASSWORD': 'hernan',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '6603',
+        'USER': 'root',
+        'PASSWORD': 'mypassword',
+        'HOST': '192.168.99.100',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 

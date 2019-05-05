@@ -12,6 +12,8 @@ class PriceAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Store)
 admin.site.register(models.Brand)
+admin.site.register(models.Type)
+admin.site.register(models.Modelo)
 admin.site.register(models.Price, PriceAdmin)
 admin.site.register(models.Product, ProductAdmin)
 

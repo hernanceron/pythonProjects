@@ -46,6 +46,13 @@ a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
+/* ---------------------------------------------------
+    HEADER STYLE
+----------------------------------------------------- */
+.jumbotron {
+    background-color: white;
+    padding: 2rem 2rem;
+}
 
 /* ---------------------------------------------------
     SIDEBAR STYLE

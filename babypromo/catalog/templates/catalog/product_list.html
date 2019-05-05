@@ -1,7 +1,41 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-    <h1>Lista de productos</h1>
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline" method="GET" accept-charset="utf-8" >
+            <input id="searchBox" name="productName" class="form-control mr-sm-2 justify-content-center" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        </form>
+    </nav>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            {% for t in type_list %}
+                <option value="{{ t.id }}">{{ t.name }}</option>
+            {% endfor %}
+        </select>
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Marca</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            {% for b in brand_list %}
+                <option value="{{ b.id }}">{{ b.name }}</option>
+            {% endfor %}
+        </select>
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Modelo</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            {% for m in models_list %}
+                <option value="{{ m.id }}">{{ m.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <div class="container-fluid">
         <div class="card-columns">
             {% for p in products %}
@@ -9,39 +43,10 @@
                     <img src="{% static 'images/' %}{{p.principalCode}}.jpg" class="card-img-top" alt="{{ p.name }}">
                     <div class="card-body">
                         <h6 class="card-title">{{ p.name }}</h6>
-                        <a href="products/{{ p.principalCode }}" class="page-link">Detalle</a>
+                        <a href="{{ p.principalCode }}" class="page-link">Detalle</a>
                     </div>
                 </div>
             {% endfor %}
         </div>        
-    </div>
-    <nav>
-        <ul class="pagination">
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a 
-                        href="?page{{ page_obj.previous_page_number }}" 
-                        class="page-link">Previous</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a href="#" class="page-link">Previous</a>
-                </li>
-            {% endif %}
-            {% for pagenum in page_obj.paginator.page_range %}
-                <li class="page-item{% if page_obj.number == pagenum %} active {% endif %}">
-                    <a href="?page={{pagenum}}" class="page-link">{{pagenum}}</a>
-                </li>
-            {% endfor %}
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <a href="#" class="page-link">Next</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
+    </div>   
 {% endblock content %}
